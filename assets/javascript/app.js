@@ -22,21 +22,25 @@ $(document).ready(function() {
             question.text(questiontext)
             $(".questions").append(question)
 
-            var answer= $("<p>")
-            answer.text(this.answersArray)
+            var answer= $("<ol>")
+            for (i=0; i<this.answersArray.length; i++){
+                var libutton=$("<li><button class='btn btn-lg answer-btn'>"+this.answersArray[i]+"</button></li>")
+                libutton.attr("ans-value",this.answersArray[i])
+                answer.append(libutton)
+            }
+           // answer.text(this.answersArray)
             $(".questions").append(answer)
 
 
-            console.log(this.questions)
-            if (this.questions.results[this.progressIndex].type==="boolean"){
-                //Answers should be true or false
-                console.log("it is boolean")
-            }
-            else{
-                // it is a multiple choice question
-                console.log("it is multiple choice")
+            // if (this.questions.results[this.progressIndex].type==="boolean"){
+            //     //Answers should be true or false
+            //     console.log("it is boolean")
+            // }
+            // else{
+            //     // it is a multiple choice question
+            //     console.log("it is multiple choice")
 
-            }
+            // }
             //var answer=this.questions.results[this.progressIndex].
            
         };
@@ -122,10 +126,6 @@ $(document).ready(function() {
     };
 
     
-
-
-
-
     $(".startgame").click(function(){
 
         if(apiReady){

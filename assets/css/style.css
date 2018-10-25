@@ -4,6 +4,10 @@ body{
 .body-div{
     margin:100px;
 }
+li{
+    list-style-type:none;
+    margin:10px
+}
 .container{
     background-color: rgb(174, 243, 243);
     margin-top: 150px;
