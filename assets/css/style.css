@@ -1,0 +1,40 @@
+body{
+    background-color: azure;
+}
+.body-div{
+    margin:100px;
+}
+.container{
+    background-color: rgb(174, 243, 243);
+    margin-top: 150px;
+    margin-bottom: 150px;
+
+}
+.margin{
+    margin: 50px;
+}
+.heading-style{
+    margin-top: 20px;
+}
+.heading{
+    text-align: center
+}
+.button-space{
+    width: 50%;
+    align-content: center;
+    margin:auto;
+}
+.clock-space{
+    margin-top: 300px;
+    align-content: center;
+    margin:auto;
+}
+.question-space{
+    margin:auto;
+}
+.btn{
+    width: 100%;
+}
+.hide{
+    opacity: 0;
+}
