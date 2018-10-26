@@ -13,6 +13,8 @@ $(document).ready(function() {
         this.unAnswered=0;
         this.progressIndex=0
         this.selectQuestion= function(){
+            $(".questions").empty()
+            this.answersArray=[]
             var correctAns=this.questions.results[this.progressIndex].correct_answer;
             var incorrectAns=this.questions.results[this.progressIndex].incorrect_answers;
             this.generateAnswerList(correctAns, incorrectAns)
@@ -24,24 +26,12 @@ $(document).ready(function() {
 
             var answer= $("<ol>")
             for (i=0; i<this.answersArray.length; i++){
-                var libutton=$("<li><button class='btn btn-lg answer-btn'>"+this.answersArray[i]+"</button></li>")
-                libutton.attr("ans-value",this.answersArray[i])
+                var libutton=$("<li><button class='btn btn-lg'>"+this.answersArray[i]+"</button></li>")
+                libutton.attr("ansValue",this.answersArray[i])
+                libutton.addClass("answerbtn")
                 answer.append(libutton)
             }
-           // answer.text(this.answersArray)
             $(".questions").append(answer)
-
-
-            // if (this.questions.results[this.progressIndex].type==="boolean"){
-            //     //Answers should be true or false
-            //     console.log("it is boolean")
-            // }
-            // else{
-            //     // it is a multiple choice question
-            //     console.log("it is multiple choice")
-
-            // }
-            //var answer=this.questions.results[this.progressIndex].
            
         };
         this.generateAnswerList = function(ans, incAns){
@@ -59,7 +49,42 @@ $(document).ready(function() {
             }
 
 
+        };
+        this.verifyAnswer = function (event){
+            var answer=$(event).attr("ansValue")
+            var correctAnswer=this.questions.results[this.progressIndex].correct_answer
+            if(answer==correctAnswer){
+                this.correctAnswers++
+                $(".questions").empty()
+                var message= $("<h3>");
+                message.text("Well Done!!")
+                $(".questions").append(message)
+                var correctAnswer=$("<p> The correct answer was: "+this.questions.results[this.progressIndex].correct_answer+"</p>")
+                $(".questions").append(correctAnswer)
+            }
+            else{
+                this.incorrectAnswers++
+                this.correctAnswers++
+                $(".questions").empty()
+                var message= $("<h3>");
+                message.text("Sorry Body!")
+                $(".questions").append(message)
+                var correctAnswer=$("<p> The correct answer is: "+this.questions.results[this.progressIndex].correct_answer+"</p>")
+                $(".questions").append(correctAnswer)
+            }
+
         }
+        this.ifTimerExpires = function(){
+            this.unAnswered++
+            $(".questions").empty()
+            var message= $("<h3>");
+            message.text("Sorry, you ran out of time!!")
+            $(".questions").append(message)
+            var correctAnswer=$("<p> The correct answer is: "+this.questions.results[this.progressIndex].correct_answer+"</p>")
+            $(".questions").append(correctAnswer)
+
+        }
+
     }
 
     $.ajax({
@@ -73,14 +98,14 @@ $(document).ready(function() {
 
 
     var stopwatch = {
-        time: 30,      
+        time: 30,
+        time2:5,
+        inBetQuestions:false,      
         reset: function() {
       
-          stopwatch.time = 30;      
+          stopwatch.time = 30;  
+          stopwatch.time2 = 5;    
           //  TODO: Change the "display" div to "00:00."
-          var clockSpace=$("<h2>")
-          clockSpace.text("00:30")
-          $(".clock").append(clockSpace)
         },
         start: function() {
       
@@ -94,15 +119,36 @@ $(document).ready(function() {
       
         },
         count: function() {
-            if(stopwatch.time<=0){
-                stopwatch.reset()  
-            }
 
-            stopwatch.time--
-            var currentTime=stopwatch.timeConverter(stopwatch.time) 
-            var clockSpace=$("<h2>")
-            clockSpace.text("Time Remaining: "+ currentTime)
-            $(".clock").html(clockSpace)     
+            if (stopwatch.inBetQuestions){
+                if(stopwatch.time2<=0){
+                    questionObj.progressIndex++
+                    questionObj.selectQuestion()
+                    stopwatch.inBetQuestions=false 
+                    stopwatch.reset() 
+
+                }
+                else{
+
+                stopwatch.time2--
+                }
+
+            }
+            else{
+
+                if(stopwatch.time<=0){
+                    //stopwatch.reset() 
+                    stopwatch.inBetQuestions=true 
+                    questionObj.ifTimerExpires()
+                }
+                else{
+                stopwatch.time--
+                }
+                var currentTime=stopwatch.timeConverter(stopwatch.time) 
+                var clockSpace=$("<h2>")
+                clockSpace.text("Time Remaining: "+ currentTime)
+                $(".clock").html(clockSpace) 
+            }    
         },      
         timeConverter: function(t) {      
           //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
@@ -141,5 +187,19 @@ $(document).ready(function() {
         }
        // console.log(questionObj)
     });
+
+
+
+    // $("li").mouseover(function(){
+    //     console.log("testing testing")
+
+    // });
+
+    $(document).on("click", ".answerbtn", mouseoverfunc);
+
+     function mouseoverfunc(){
+        stopwatch.inBetQuestions=true
+        questionObj.verifyAnswer(this)
+     }
 
 });
