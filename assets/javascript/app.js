@@ -14,24 +14,43 @@ $(document).ready(function() {
         this.progressIndex=0
         this.selectQuestion= function(){
             $(".questions").empty()
-            this.answersArray=[]
-            var correctAns=this.questions.results[this.progressIndex].correct_answer;
-            var incorrectAns=this.questions.results[this.progressIndex].incorrect_answers;
-            this.generateAnswerList(correctAns, incorrectAns)
 
-            var questiontext=this.questions.results[this.progressIndex].question
-            var question= $("<h3>");
-            question.text(questiontext)
-            $(".questions").append(question)
+            if(this.progressIndex>=this.questions.results.length){
+                console.log("need to show results")
+                stopwatch.stop()
+                var headingResult=$("<h3>")
+                headingResult.text("Here is how you did:")
+                $(".questions").append(headingResult)
 
-            var answer= $("<ol>")
-            for (i=0; i<this.answersArray.length; i++){
-                var libutton=$("<li><button class='btn btn-lg'>"+this.answersArray[i]+"</button></li>")
-                libutton.attr("ansValue",this.answersArray[i])
-                libutton.addClass("answerbtn")
-                answer.append(libutton)
+                var finalResults=$("<div>")
+                finalResults.append("<p>Number of Correct Answers: " + this.correctAnswers+"</p>")
+                finalResults.append("<p>Number of Incorrect Answers: " + this.incorrectAnswers+"</p>")
+                finalResults.append("<p>Number of Questions Unanswers: " + this.unAnswered+"</p>")
+                $(".questions").append(finalResults)
+
+
             }
-            $(".questions").append(answer)
+            else{
+                
+                this.answersArray=[]
+                var correctAns=this.questions.results[this.progressIndex].correct_answer;
+                var incorrectAns=this.questions.results[this.progressIndex].incorrect_answers;
+                this.generateAnswerList(correctAns, incorrectAns)
+
+                var questiontext=this.questions.results[this.progressIndex].question
+                var question= $("<h3>");
+                question.text(questiontext)
+                $(".questions").append(question)
+
+                var answer= $("<ol>")
+                for (i=0; i<this.answersArray.length; i++){
+                    var libutton=$("<li><button class='btn btn-lg'>"+this.answersArray[i]+"</button></li>")
+                    libutton.attr("ansValue",this.answersArray[i])
+                    libutton.addClass("answerbtn")
+                    answer.append(libutton)
+                }
+                $(".questions").append(answer)
+            }
            
         };
         this.generateAnswerList = function(ans, incAns){
@@ -64,10 +83,9 @@ $(document).ready(function() {
             }
             else{
                 this.incorrectAnswers++
-                this.correctAnswers++
                 $(".questions").empty()
                 var message= $("<h3>");
-                message.text("Sorry Body!")
+                message.text("Sorry Buddy!")
                 $(".questions").append(message)
                 var correctAnswer=$("<p> The correct answer is: "+this.questions.results[this.progressIndex].correct_answer+"</p>")
                 $(".questions").append(correctAnswer)
