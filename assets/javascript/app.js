@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var queryURL="https://opentdb.com/api.php?amount=20"
+    var queryURL="https://opentdb.com/api.php?amount=10"
 
     var apiReady=false;
     questionObj={}
@@ -28,6 +28,10 @@ $(document).ready(function() {
                 finalResults.append("<p>Number of Questions Unanswers: " + this.unAnswered+"</p>")
                 $(".questions").append(finalResults)
 
+                var restartBtn= $("<button>")
+                restartBtn.text("Restart the Questions")
+                restartBtn.addClass("restart-questions btn btn-lg")
+                $(".questions").append(restartBtn)
 
             }
             else{
@@ -100,6 +104,17 @@ $(document).ready(function() {
             $(".questions").append(message)
             var correctAnswer=$("<p> The correct answer is: "+this.questions.results[this.progressIndex].correct_answer+"</p>")
             $(".questions").append(correctAnswer)
+
+        }
+        this.restartQuestions = function(){
+            this.answersArray=[];
+            this.correctAnswers=0;
+            this.incorrectAnswers=0;
+            this.unAnswered=0;
+            this.progressIndex=0
+            this.selectQuestion()
+            stopwatch.reset()
+            stopwatch.start()
 
         }
 
@@ -219,5 +234,14 @@ $(document).ready(function() {
         stopwatch.inBetQuestions=true
         questionObj.verifyAnswer(this)
      }
+
+     $(document).on("click", ".restart-questions", restartGame);
+
+     function restartGame(){
+
+        questionObj.restartQuestions()
+     }
+
+     
 
 });
