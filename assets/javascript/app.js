@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var queryURL="https://opentdb.com/api.php?amount=3"
+    var queryURL="https://opentdb.com/api.php?amount=10"
 
     var apiReady=false;
     questionObj={}
@@ -42,8 +42,9 @@ $(document).ready(function() {
                 this.generateAnswerList(correctAns, incorrectAns)
 
                 var questiontext=this.questions.results[this.progressIndex].question
+                var questionTextClean=decodeHtml(questiontext)
                 var question= $("<h3>");
-                question.text(questiontext)
+                question.text(questionTextClean)
                 $(".questions").append(question)
 
                 var answer= $("<ol>")
@@ -54,6 +55,13 @@ $(document).ready(function() {
                     answer.append(libutton)
                 }
                 $(".questions").append(answer)
+// Little Help from https://gomakethings.com/decoding-html-entities-with-vanilla-javascript/
+//to help me remove the HTML Entities Im getting from the API
+                function decodeHtml (html) {
+                    var txt = document.createElement('textarea');
+                    txt.innerHTML = html;
+                    return txt.value;
+                };
             }
            
         };
@@ -131,12 +139,12 @@ $(document).ready(function() {
 
 
     var stopwatch = {
-        time: 30,
+        time: 15,
         time2:2,
         inBetQuestions:false,      
         reset: function() {
       
-          stopwatch.time = 30;  
+          stopwatch.time = 15;  
           stopwatch.time2 = 2;    
           //  TODO: Change the "display" div to "00:00."
         },
