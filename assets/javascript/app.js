@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var queryURL="https://opentdb.com/api.php?amount=10"
+    var queryURL="https://opentdb.com/api.php?amount=3"
 
     var apiReady=false;
     questionObj={}
@@ -30,7 +30,7 @@ $(document).ready(function() {
 
                 var restartBtn= $("<button>")
                 restartBtn.text("Restart the Questions")
-                restartBtn.addClass("restart-questions btn btn-lg")
+                restartBtn.addClass("restart-questions btn btn-lg btn-warning")
                 $(".questions").append(restartBtn)
 
             }
@@ -50,7 +50,7 @@ $(document).ready(function() {
                 for (i=0; i<this.answersArray.length; i++){
                     var libutton=$("<li><button class='btn btn-lg'>"+this.answersArray[i]+"</button></li>")
                     libutton.attr("ansValue",this.answersArray[i])
-                    libutton.addClass("answerbtn")
+                    libutton.addClass("answerbtn center")
                     answer.append(libutton)
                 }
                 $(".questions").append(answer)
@@ -132,12 +132,12 @@ $(document).ready(function() {
 
     var stopwatch = {
         time: 30,
-        time2:5,
+        time2:2,
         inBetQuestions:false,      
         reset: function() {
       
           stopwatch.time = 30;  
-          stopwatch.time2 = 5;    
+          stopwatch.time2 = 2;    
           //  TODO: Change the "display" div to "00:00."
         },
         start: function() {

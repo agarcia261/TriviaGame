@@ -38,7 +38,14 @@ li{
 }
 .btn{
     width: 100%;
+    margin-bottom: 15px
 }
 .hide{
     opacity: 0;
+}
+.center{
+    margin: auto;
+    align-content: center;
+    text-align: center;
+
 }
