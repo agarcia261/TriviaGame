@@ -1,3 +1,4 @@
+@media screen and (min-width: 601px) {
 body{
     background-color: azure;
 }
@@ -49,3 +50,59 @@ li{
     text-align: center;
 
 }
+}
+@media screen and (max-width: 600px) {
+    body{
+        background-color: azure;
+    }
+    li{
+        list-style-type:none;
+        margin:10px
+    }
+    .container{
+        margin-top: 50px;
+        margin-bottom: 50px;
+    
+    }
+    .margin{
+        margin: 10px;
+    }
+    .button-space{
+        width: 90%;
+        align-content: center;
+        margin:auto;
+    }
+    .heading-style{
+        margin-top: 20px;
+    }
+    .heading{
+        text-align: center
+    }
+    .button-space{
+        width: 100%;
+        align-content: center;
+        margin:auto;
+    }
+    .clock-space{
+        margin-top: 300px;
+        align-content: center;
+        margin:auto;
+    }
+    .question-space{
+        margin:auto;
+    }
+    .btn{
+        width:80%;
+        margin-bottom: 15px
+        
+    }
+    .hide{
+        opacity: 0;
+    }
+    .center{
+        margin: auto;
+        align-content: center;
+        text-align: center;
+    
+    }
+  }
