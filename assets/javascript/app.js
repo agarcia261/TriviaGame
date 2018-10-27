@@ -42,26 +42,18 @@ $(document).ready(function() {
                 this.generateAnswerList(correctAns, incorrectAns)
 
                 var questiontext=this.questions.results[this.progressIndex].question
-                var questionTextClean=decodeHtml(questiontext)
                 var question= $("<h3>");
-                question.text(questionTextClean)
+                question.html(questiontext)
                 $(".questions").append(question)
 
                 var answer= $("<ol>")
                 for (i=0; i<this.answersArray.length; i++){
-                    var libutton=$("<li><button class='btn btn-lg'>"+this.answersArray[i]+"</button></li>")
+                    var libutton=$("<li><button class='btn btn-lg button'>"+this.answersArray[i]+"</button></li>")
                     libutton.attr("ansValue",this.answersArray[i])
                     libutton.addClass("answerbtn center")
                     answer.append(libutton)
                 }
                 $(".questions").append(answer)
-// Little Help from https://gomakethings.com/decoding-html-entities-with-vanilla-javascript/
-//to help me remove the HTML Entities Im getting from the API
-                function decodeHtml (html) {
-                    var txt = document.createElement('textarea');
-                    txt.innerHTML = html;
-                    return txt.value;
-                };
             }
            
         };
@@ -137,7 +129,6 @@ $(document).ready(function() {
 
     });
 
-
     var stopwatch = {
         time: 15,
         time2:2,
@@ -146,21 +137,14 @@ $(document).ready(function() {
       
           stopwatch.time = 15;  
           stopwatch.time2 = 2;    
-          //  TODO: Change the "display" div to "00:00."
         },
         start: function() {
-      
-          //  TODO: Use setInterval to start the count here and set the clock to running.
             intervalId=setInterval(stopwatch.count,1000)      
         },
-        stop: function() {
-      
-          //  TODO: Use clearInterval to stop the count here and set the clock to not be running.
+        stop: function() {      
           clearInterval(intervalId);
-      
         },
         count: function() {
-
             if (stopwatch.inBetQuestions){
                 if(stopwatch.time2<=0){
                     questionObj.progressIndex++
@@ -170,7 +154,6 @@ $(document).ready(function() {
 
                 }
                 else{
-
                 stopwatch.time2--
                 }
 
@@ -178,7 +161,6 @@ $(document).ready(function() {
             else{
 
                 if(stopwatch.time<=0){
-                    //stopwatch.reset() 
                     stopwatch.inBetQuestions=true 
                     questionObj.ifTimerExpires()
                 }
@@ -192,7 +174,6 @@ $(document).ready(function() {
             }    
         },      
         timeConverter: function(t) {      
-          //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
           var minutes = Math.floor(t / 60);
           var seconds = t - (minutes * 60);
       
@@ -212,44 +193,44 @@ $(document).ready(function() {
         }
     };
 
-    
     $(".startgame").click(function(){
 
         if(apiReady){
-        $(".start-button").fadeOut()
-        $(".question-hide").removeClass("hide")
-        $(".question-hide").addClass("questions-space")
-         questionObj.selectQuestion();
+            $(".start-button").fadeOut()
+            $(".question-hide").removeClass("hide")
+            $(".question-hide").addClass("questions-space")
+            questionObj.selectQuestion();
 
-        stopwatch.start()
+            stopwatch.start()
         }
         else{
             alert("API is not ready. Please wait a few seconds and try again")
         }
-       // console.log(questionObj)
     });
 
+    $(document).on("click", ".answerbtn", ansFunction);
 
-
-    // $("li").mouseover(function(){
-    //     console.log("testing testing")
-
-    // });
-
-    $(document).on("click", ".answerbtn", mouseoverfunc);
-
-     function mouseoverfunc(){
+    function ansFunction(){
         stopwatch.inBetQuestions=true
         questionObj.verifyAnswer(this)
-     }
+    }
 
-     $(document).on("click", ".restart-questions", restartGame);
+    $(document).on("click", ".restart-questions", restartGame);
 
-     function restartGame(){
+    function restartGame(){
 
         questionObj.restartQuestions()
-     }
+    }
 
-     
+   $(document).on("mouseover", ".button", mouseOverFunction);
+   $(document).on("mouseleave", ".button", mouseLeaveFunction);
+
+    function mouseOverFunction(){
+        $(this).css("background-color", "gray");
+    }
+    function mouseLeaveFunction(){
+        $(this).css("background-color", "white");
+    }
+
 
 });
